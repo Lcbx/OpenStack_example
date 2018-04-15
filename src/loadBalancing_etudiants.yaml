@@ -1,0 +1,43 @@
+heat_template_version: 2014-10-16
+
+description: A template to deploy a load balanced web server
+
+
+resources: 
+  server_nodes:
+      type: OS::Heat::ResourceGroup
+      properties:
+          count: 2
+          resource_def:     
+             type: simple_server.yaml
+             properties:
+                pool_id: {get_resource: pool}
+
+  pool:
+      type: OS::Neutron::Pool
+      properties:
+         protocol: HTTP
+         monitors: [{get_resource: monitor}]
+         subnet_id: "inf4410-net"
+         lb_method: ROUND_ROBIN
+         vip:
+            protocol_port: 80
+
+  loadbalancer:
+      type: OS::Neutron::LoadBalancer
+      properties:
+         pool_id: {get_resource: pool}
+
+  monitor:
+      type: OS::Neutron::HealthMonitor
+      properties:
+          type: HTTP
+          delay: 4
+          max_retries: 2
+          timeout: 10
+
+
+outputs:
+  pool_ip_address:
+    value: {get_attr: [pool, vip, address]}
+    description: The IP address of the load balancing pool
