@@ -12,6 +12,7 @@ resources:
   server:
     type: OS::Nova::Server
     properties:
+      name: server
       networks:
       - network: inf4410-net
       key_name: "cloud"
@@ -24,6 +25,5 @@ resources:
             #!/bin/bash
             wget https://raw.githubusercontent.com/houssemmh/INF4410-TP3/master/server.py
             python ./server.py
-          
 
 outputs:
