@@ -23,6 +23,5 @@ NOTE: wget stocke le contenu de la page, d'ou l'option -q0
 
 nos resultats (30 requetes)
 simple_server: 32.034s
-Complex : 12.045s
-serveur local : 38.135s
+Complex : 19.936s
 
